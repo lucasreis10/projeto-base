@@ -23,11 +23,11 @@ public class UsuarioValidate implements Validator {
         final var nome = usuario.getNome();
 
         if(nome == null) {
-            throw new DomainException("'nome' não pode ser nulo");
+            throw new DomainException("'nome' não pode ser nulo.");
         }
 
         if(nome.isBlank()) {
-            throw new DomainException("'nome' não pode ser vazio");
+            throw new DomainException("'nome' não pode ser vazio.");
         }
 
         if(nome.length() < TAMANHO_MINIMO || nome.length() >= TAMANHO_MAXIMO) {
