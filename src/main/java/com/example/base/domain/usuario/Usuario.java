@@ -17,6 +17,11 @@ public class Usuario {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+        validar();
+    }
+
+    private void validar() {
+        new UsuarioValidate(this).validate();
     }
 
     public static Usuario newUsuario(String nome, String senha, String email) {
