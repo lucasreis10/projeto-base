@@ -2,18 +2,17 @@ package com.example.base.domain.usuario;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.Getter;
 
 @Entity
 public class Usuario {
 
     @Id
-    private final Long id;
+    private final UsuarioID id;
     private final String nome;
     private final String email;
     private final String senha;
 
-    private Usuario(Long id, String nome, String senha, String email) {
+    private Usuario(UsuarioID id, String nome, String senha, String email) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -21,11 +20,8 @@ public class Usuario {
     }
 
     public static Usuario newUsuario(String nome, String senha, String email) {
-        return new Usuario(null, nome, senha, email);
-    }
-
-    public Long getId() {
-        return id;
+        UsuarioID usuarioID = UsuarioID.unique();
+        return new Usuario(usuarioID, nome, senha, email);
     }
 
     public String getNome() {
@@ -38,5 +34,9 @@ public class Usuario {
 
     public String getSenha() {
         return senha;
+    }
+
+    public UsuarioID getId() {
+        return id;
     }
 }

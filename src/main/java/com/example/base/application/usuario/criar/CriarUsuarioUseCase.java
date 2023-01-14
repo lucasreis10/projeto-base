@@ -16,7 +16,7 @@ public class CriarUsuarioUseCase {
     }
 
     public CriarUsuarioOutput execute(CriarUsuarioCommand command) {
-        var usuario = newUsuario(command.getNome(), command.getSenha(), null);
+        var usuario = newUsuario(command.getNome(), command.getSenha(), command.getEmail());
 
         Usuario novoUsuario = repository.save(usuario);
 
