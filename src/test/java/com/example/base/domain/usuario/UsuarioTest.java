@@ -27,7 +27,7 @@ public class UsuarioTest {
     }
 
     @Test
-    public void dadoUmComandoComNomeInvalido_quandoExecutarCriarUsuario_deveRetornarUmaExecao() {
+    public void dadoUmComandoComNomeInvalido_quandoExecutarNewUsuario_deveRetornarUmaExecao() {
         // setup:
         final var exceptionEsperada = "'nome' deve ter 3 a 255 caracteres.";
         final var nomeEsperado = "Ab";
@@ -42,7 +42,7 @@ public class UsuarioTest {
     }
 
     @Test
-    public void dadoUmComandoComNomeNull_quandoExecutarCriarUsuario_deveRetornarUmaExecao() {
+    public void dadoUmComandoComNomeNull_quandoExecutarNewUsuario_deveRetornarUmaExecao() {
         // setup:
         final var exceptionEsperada = "'nome' não pode ser nulo.";
         final String nomeEsperado = null;
@@ -57,10 +57,10 @@ public class UsuarioTest {
     }
 
     @Test
-    public void dadoUmComandoComNomeVazio_quandoExecutarCriarUsuario_deveRetornarUmaExecao() {
+    public void dadoUmComandoComNomeVazio_quandoExecutarNewUsuario_deveRetornarUmaExecao() {
         // setup:
         final var exceptionEsperada = "'nome' não pode ser vazio.";
-        final String nomeEsperado = "";
+        final var nomeEsperado = "";
         final var emailEsperado = "dummy";
         final var senhaEsperada = "dummy";
 
