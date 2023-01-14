@@ -1,4 +1,4 @@
-package com.example.base.application.usuario.excption;
+package com.example.base.application.usuario.exception;
 
 public class UsuarioOuSenhaIncorretosException extends RuntimeException{
 

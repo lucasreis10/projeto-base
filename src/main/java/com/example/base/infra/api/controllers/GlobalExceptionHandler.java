@@ -1,13 +1,11 @@
 package com.example.base.infra.api.controllers;
 
-import com.example.base.application.usuario.excption.UsuarioOuSenhaIncorretosException;
+import com.example.base.application.usuario.exception.UsuarioOuSenhaIncorretosException;
 import com.example.base.domain.exception.DomainException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -25,7 +23,7 @@ public class GlobalExceptionHandler {
 }
 
 class ApiError {
-    private String message;
+    private final String message;
 
 
     private ApiError(String message) {
