@@ -7,7 +7,7 @@ public class UsuarioValidate implements Validator {
 
     private static final int TAMANHO_MINIMO = 3;
     private static final int TAMANHO_MAXIMO = 255;
-    private Usuario usuario;
+    private final Usuario usuario;
 
     public UsuarioValidate(Usuario usuario) {
         this.usuario = usuario;
