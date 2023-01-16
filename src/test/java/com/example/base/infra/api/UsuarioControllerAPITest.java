@@ -2,6 +2,7 @@ package com.example.base.infra.api;
 
 import com.example.base.application.usuario.criar.CriarUsuarioOutput;
 import com.example.base.application.usuario.criar.CriarUsuarioUseCase;
+import com.example.base.application.usuario.exception.UsuarioOuSenhaIncorretosException;
 import com.example.base.application.usuario.login.LoginUsuarioUseCase;
 import com.example.base.domain.exception.DomainException;
 import com.example.base.infra.ControllerTest;
@@ -145,5 +146,37 @@ public class UsuarioControllerAPITest {
 
     }
 
+    @Test
+    public void dadoUmCommandInvalido_quandoExecutarLogin_deveSerRetornadoStatusCode404() throws Exception{
+        final var emailEsperado = "naoexiste@email.com";
+        final var senhaEsperada = "123456";
+        final var mensagemErroEsperada = "Usuário ou senha estão incorretos.";
+
+        final var input =
+                new LoginUsuarioAPIInput(emailEsperado, senhaEsperada);
+
+        doThrow(new UsuarioOuSenhaIncorretosException())
+                .when(loginUsuarioUseCase).execute(Mockito.any());
+
+        // execute:
+        final var request = post("/usuarios/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(input));
+
+        final var response = mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print());
+
+        // verify:
+        response
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(jsonPath("$.message", Matchers.equalTo(mensagemErroEsperada)));
+
+        Mockito.verify(loginUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
+                Objects.equals(senhaEsperada, cmd.getSenha())
+                && Objects.equals(emailEsperado, cmd.getEmail())
+        ));
+
+    }
 
 }
