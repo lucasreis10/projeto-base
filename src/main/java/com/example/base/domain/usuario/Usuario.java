@@ -39,10 +39,16 @@ public class Usuario {
 
     public static Usuario newUsuario(String nome, String senha, String email) {
         UsuarioID usuarioID = UsuarioID.unique();
-        return new Usuario(usuarioID, nome, senha, email);
+
+        return new Usuario(
+                usuarioID,
+                nome,
+                senha,
+                email
+        );
     }
 
-    public Usuario deletar() {
+    public Usuario desativar() {
         if(this.dataExclusao == null)  {
             this.dataExclusao = Instant.now();
         }

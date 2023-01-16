@@ -3,7 +3,6 @@ package com.example.base.domain.usuario;
 import com.example.base.domain.exception.DomainException;
 import org.junit.jupiter.api.Test;
 
-import static com.example.base.application.usuario.criar.CriarUsuarioCommand.with;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UsuarioTest {
@@ -81,7 +80,7 @@ public class UsuarioTest {
         final var senhaEsperada = "oid9a82osj";
 
         // execute:
-        final var usuario = Usuario.newUsuario(nomeEsperado, senhaEsperada, emailEsperado).deletar();
+        final var usuario = Usuario.newUsuario(nomeEsperado, senhaEsperada, emailEsperado).desativar();
 
         // verify:
         assertNotNull(usuario);

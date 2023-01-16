@@ -2,17 +2,17 @@ package com.example.base.application.usuario.deletar;
 
 public class DeletarUsuarioCommand {
 
-    private final Long id;
+    private final String id;
 
-    private DeletarUsuarioCommand(Long id) {
+    private DeletarUsuarioCommand(String id) {
         this.id = id;
     }
 
-    public static DeletarUsuarioCommand with(Long id) {
+    public static DeletarUsuarioCommand with(String id) {
         return new DeletarUsuarioCommand(id);
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 }

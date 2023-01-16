@@ -26,9 +26,8 @@ public class DeletarUsuarioUseCaseTest {
     @Test
     public void dadoUmCommandValido_quandoExecutarDeletarUsuario_deveEstarOk() {
         //setup
-        final var id = 123L;
+        final var id = "123";
         final var command = DeletarUsuarioCommand.with(id);
-        final var usuarioEsperado = newUsuario("dummy", "dummy", "dummy");
 
         when(usuarioRepository.existsById(id))
                 .thenReturn(Boolean.TRUE);
