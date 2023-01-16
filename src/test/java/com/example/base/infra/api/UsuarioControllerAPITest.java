@@ -6,6 +6,7 @@ import com.example.base.application.usuario.login.LoginUsuarioUseCase;
 import com.example.base.domain.exception.DomainException;
 import com.example.base.infra.ControllerTest;
 import com.example.base.infra.usuario.models.CriarUsuarioAPIInput;
+import com.example.base.infra.usuario.models.LoginUsuarioAPIInput;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -21,8 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.Objects;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -113,5 +113,37 @@ public class UsuarioControllerAPITest {
         ));
 
     }
+
+    @Test
+    public void dadoUmCommandValido_quandoExecutarLogin_deveSerRetornadoStatusCode200() throws Exception{
+        final var emailEsperado = "gleidisney@email.com.br";
+        final var senhaEsperada = "osi03w3";
+
+        final var input =
+                new LoginUsuarioAPIInput(emailEsperado, senhaEsperada);
+
+        doNothing()
+                .when(loginUsuarioUseCase).execute(Mockito.any());
+
+        // execute:
+        final var request = post("/usuarios/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(input));
+
+        final var response = mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print());
+
+        // verify:
+        response
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(loginUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
+                 Objects.equals(senhaEsperada, cmd.getSenha())
+                && Objects.equals(emailEsperado, cmd.getEmail())
+        ));
+
+    }
+
 
 }

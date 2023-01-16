@@ -1,6 +1,5 @@
 package com.example.base.infra.api.controllers;
 
-import com.example.base.application.usuario.criar.CriarUsuarioCommand;
 import com.example.base.application.usuario.criar.CriarUsuarioOutput;
 import com.example.base.application.usuario.criar.CriarUsuarioUseCase;
 import com.example.base.application.usuario.login.LoginUsuarioCommand;
