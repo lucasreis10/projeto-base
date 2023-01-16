@@ -1,10 +1,9 @@
 package com.example.base.application.usuario.desativar;
 
-import com.example.base.application.UnitUseCase;
 import com.example.base.application.UseCase;
-import com.example.base.application.usuario.exception.UsuarioNotFound;
+import com.example.base.application.usuario.exception.NotFoundException;
 import com.example.base.domain.usuario.Usuario;
-import com.example.base.infra.usuario.persistence.UsuarioRepository;
+import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class DesativarUsuarioUseCase extends UseCase<DesativarUsuarioCommand, DesativarUsuarioOutput> {
@@ -31,7 +30,7 @@ public class DesativarUsuarioUseCase extends UseCase<DesativarUsuarioCommand, De
 
     private Usuario obterUsuario(String id) {
         return usuarioRepository.findById(id)
-                .orElseThrow(UsuarioNotFound::new);
+                .orElseThrow(() -> NotFoundException.with(Usuario.class, id));
     }
 
 }

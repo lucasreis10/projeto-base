@@ -1,7 +1,7 @@
 package com.example.base.application.usuario.deletar;
 
 
-import com.example.base.infra.usuario.persistence.UsuarioRepository;
+import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +11,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
-import static com.example.base.domain.usuario.Usuario.newUsuario;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

@@ -1,4 +1,4 @@
-package com.example.base.infra.usuario.models;
+package com.example.base.infrastructure.usuario.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,4 +1,4 @@
-package com.example.base.infra;
+package com.example.base.infrastructure;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.core.annotation.AliasFor;

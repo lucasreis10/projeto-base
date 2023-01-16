@@ -2,13 +2,12 @@ package com.example.base.application.usuario.login;
 
 import com.example.base.application.usuario.exception.UsuarioOuSenhaIncorretosException;
 import com.example.base.domain.usuario.Usuario;
-import com.example.base.infra.usuario.persistence.UsuarioRepository;
+import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;

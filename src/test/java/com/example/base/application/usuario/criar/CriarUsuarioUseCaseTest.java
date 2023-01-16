@@ -1,7 +1,7 @@
 package com.example.base.application.usuario.criar;
 
 import com.example.base.domain.exception.DomainException;
-import com.example.base.infra.usuario.persistence.UsuarioRepository;
+import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

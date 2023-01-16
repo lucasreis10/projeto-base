@@ -2,7 +2,7 @@ package com.example.base.application.usuario.criar;
 
 import com.example.base.application.UseCase;
 import com.example.base.domain.usuario.Usuario;
-import com.example.base.infra.usuario.persistence.UsuarioRepository;
+import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

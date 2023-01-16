@@ -1,13 +1,17 @@
-package com.example.base.infra.api;
+package com.example.base.infrastructure.api;
 
 import com.example.base.application.usuario.criar.CriarUsuarioOutput;
 import com.example.base.application.usuario.criar.CriarUsuarioUseCase;
+import com.example.base.application.usuario.desativar.DesativarUsuarioOutput;
+import com.example.base.application.usuario.desativar.DesativarUsuarioUseCase;
+import com.example.base.application.usuario.exception.NotFoundException;
 import com.example.base.application.usuario.exception.UsuarioOuSenhaIncorretosException;
 import com.example.base.application.usuario.login.LoginUsuarioUseCase;
 import com.example.base.domain.exception.DomainException;
-import com.example.base.infra.ControllerTest;
-import com.example.base.infra.usuario.models.CriarUsuarioAPIInput;
-import com.example.base.infra.usuario.models.LoginUsuarioAPIInput;
+import com.example.base.domain.usuario.Usuario;
+import com.example.base.infrastructure.ControllerTest;
+import com.example.base.infrastructure.usuario.models.CriarUsuarioAPIInput;
+import com.example.base.infrastructure.usuario.models.LoginUsuarioAPIInput;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -23,6 +27,7 @@ import java.util.Objects;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -38,6 +43,8 @@ public class UsuarioAPITest {
     private CriarUsuarioUseCase criarUsuarioUseCase;
     @MockBean
     private LoginUsuarioUseCase loginUsuarioUseCase;
+    @MockBean
+    private DesativarUsuarioUseCase desativarUsuarioUseCase;
 
     @Test
     public void dadoParametrosValidos_quandoExecutarCriarUsuario_entaoRetornaUsuarioComIdEEmail() throws Exception{
@@ -174,6 +181,67 @@ public class UsuarioAPITest {
         Mockito.verify(loginUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
                 Objects.equals(senhaEsperada, cmd.getSenha())
                 && Objects.equals(emailEsperado, cmd.getEmail())
+        ));
+
+    }
+
+    @Test
+    public void dadoUmCommandValido_quandoExecutarDesativarUsuario_deveSerRetornadoStatusCode200() throws Exception{
+        //setup
+        final var id = "312";
+        final var nomeEsperado = "dummy-nome";
+        final var emailEsperado = "dummy@email.com";
+        final var senhaEsperada = "dummy-senha";
+        final var usuario = Usuario.newUsuario(nomeEsperado, senhaEsperada, emailEsperado).desativar();
+        final var outputEsperado = DesativarUsuarioOutput.from(usuario);
+
+        when(desativarUsuarioUseCase.execute(any()))
+                .thenReturn(outputEsperado);
+
+        // execute:
+        final var request = delete("/usuarios/"+id+"/desativar")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        final var response = mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print());
+
+        // verify:
+        response
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(desativarUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
+                Objects.equals(id, cmd.getId())
+        ));
+
+    }
+
+    @Test
+    public void dadoUmCommandInvalidoComIdInexistente_quandoExecutarDesativarUsuario_deveSerRetornadoStatusCode404() throws Exception{
+        //setup
+        final var id = "dummy-id-nao-existe";
+        final var mensagemErroEsperada = "Usuario com ID dummy-id-nao-existe não foi encontrado.";
+
+
+        doThrow(NotFoundException.with(Usuario.class, id))
+                .when(desativarUsuarioUseCase).execute(any());
+
+        // execute:
+        final var request = delete("/usuarios/"+id+"/desativar")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        final var response = mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print());
+
+        // verify:
+        response
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(jsonPath("$.message", Matchers.equalTo(mensagemErroEsperada)));
+
+
+        Mockito.verify(desativarUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
+                Objects.equals(id, cmd.getId())
         ));
 
     }

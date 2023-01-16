@@ -1,11 +1,15 @@
-package com.example.base.infra.api.controllers;
+package com.example.base.infrastructure.api.controllers;
 
 import com.example.base.application.usuario.criar.CriarUsuarioOutput;
 import com.example.base.application.usuario.criar.CriarUsuarioUseCase;
+import com.example.base.application.usuario.desativar.DesativarUsuarioCommand;
+import com.example.base.application.usuario.desativar.DesativarUsuarioOutput;
+import com.example.base.application.usuario.desativar.DesativarUsuarioUseCase;
 import com.example.base.application.usuario.login.LoginUsuarioCommand;
 import com.example.base.application.usuario.login.LoginUsuarioUseCase;
-import com.example.base.infra.api.UsuarioAPI;
-import com.example.base.infra.usuario.models.CriarUsuarioAPIInput;
+import com.example.base.infrastructure.api.UsuarioAPI;
+import com.example.base.infrastructure.usuario.models.CriarUsuarioAPIInput;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,12 +23,16 @@ public class UsuarioController implements UsuarioAPI {
     private final CriarUsuarioUseCase criarUsuarioUseCase;
     private final LoginUsuarioUseCase loginUsuarioUseCase;
 
+    private final DesativarUsuarioUseCase desativarUsuarioUseCase;
+
+    @Autowired
     public UsuarioController(
             CriarUsuarioUseCase criarUsuarioUseCase,
-            LoginUsuarioUseCase loginUsuarioUseCase
-    ) {
+            LoginUsuarioUseCase loginUsuarioUseCase,
+            DesativarUsuarioUseCase desativarUsuarioUseCase) {
         this.criarUsuarioUseCase = criarUsuarioUseCase;
         this.loginUsuarioUseCase = loginUsuarioUseCase;
+        this.desativarUsuarioUseCase = desativarUsuarioUseCase;
     }
 
     @Override
@@ -46,6 +54,15 @@ public class UsuarioController implements UsuarioAPI {
         loginUsuarioUseCase.execute(input);
 
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<?> login(String input) {
+        DesativarUsuarioCommand command = DesativarUsuarioCommand.with(input);
+
+        DesativarUsuarioOutput output = desativarUsuarioUseCase.execute(command);
+
+        return ResponseEntity.ok(output);
     }
 
 }
