@@ -21,6 +21,10 @@ public class CriarUsuarioOutput {
         return new CriarUsuarioOutput(id.getValue(), email);
     }
 
+    public static CriarUsuarioOutput from(String id, String email) {
+        return new CriarUsuarioOutput(id, email);
+    }
+
     public String getId() {
         return id;
     }

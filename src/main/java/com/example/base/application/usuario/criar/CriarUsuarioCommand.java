@@ -1,21 +1,11 @@
 package com.example.base.application.usuario.criar;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 
 public class CriarUsuarioCommand {
 
-    @NotNull
-    @Size(min = 3, max = 255)
     private final String nome;
-
-    @NotNull
-    @Size(min = 5, max = 90)
     private final String senha;
-
-    @NotNull
-    @Size(min = 15, max = 90)
     private final String email;
 
     private CriarUsuarioCommand(String nome, String senha, String email) {
