@@ -22,7 +22,6 @@ public class UsuarioController implements UsuarioAPI {
 
     private final CriarUsuarioUseCase criarUsuarioUseCase;
     private final LoginUsuarioUseCase loginUsuarioUseCase;
-
     private final DesativarUsuarioUseCase desativarUsuarioUseCase;
 
     @Autowired

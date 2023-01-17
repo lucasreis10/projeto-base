@@ -3,9 +3,9 @@ package com.example.base.application.usuario.deletar;
 import com.example.base.application.UnitUseCase;
 import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class DeletarUsuarioUseCase extends UnitUseCase<DeletarUsuarioCommand> {
 
     private final UsuarioRepository usuarioRepository;

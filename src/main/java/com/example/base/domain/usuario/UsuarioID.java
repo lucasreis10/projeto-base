@@ -1,14 +1,14 @@
 package com.example.base.domain.usuario;
 
+import com.example.base.domain.DomainID;
+
+import java.io.Serializable;
 import java.util.UUID;
 
-public class UsuarioID {
-
-    private final String value;
-
+public class UsuarioID extends DomainID {
 
     private UsuarioID(String value) {
-        this.value = value;
+        super(value);
     }
 
     public static UsuarioID unique() {
@@ -16,6 +16,6 @@ public class UsuarioID {
     }
 
     public String getValue() {
-        return value;
+        return this.id;
     }
 }

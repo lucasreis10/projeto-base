@@ -4,9 +4,10 @@ import com.example.base.application.UnitUseCase;
 import com.example.base.application.usuario.exception.UsuarioOuSenhaIncorretosException;
 import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+
+@Component
 public class LoginUsuarioUseCase extends UnitUseCase<LoginUsuarioCommand> {
 
     private final UsuarioRepository usuarioRepository;

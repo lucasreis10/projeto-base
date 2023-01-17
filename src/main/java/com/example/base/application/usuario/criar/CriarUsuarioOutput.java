@@ -14,7 +14,7 @@ public class CriarUsuarioOutput {
     }
 
     public static CriarUsuarioOutput from(Usuario usuario) {
-        return new CriarUsuarioOutput(usuario.getId().getValue(), usuario.getEmail());
+        return new CriarUsuarioOutput(usuario.getId(), usuario.getEmail());
     }
 
     public static CriarUsuarioOutput with(UsuarioID id, String email) {

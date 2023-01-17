@@ -5,7 +5,9 @@ import com.example.base.application.usuario.exception.NotFoundException;
 import com.example.base.domain.usuario.Usuario;
 import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DesativarUsuarioUseCase extends UseCase<DesativarUsuarioCommand, DesativarUsuarioOutput> {
 
 

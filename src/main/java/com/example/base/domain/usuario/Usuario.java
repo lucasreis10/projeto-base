@@ -8,9 +8,8 @@ import java.time.Instant;
 
 @Entity
 public class Usuario {
-
     @Id
-    private UsuarioID id;
+    private String id;
     @Column(nullable = false)
     private String nome;
     @Column(nullable = false)
@@ -24,7 +23,9 @@ public class Usuario {
     @Column(name = "data_exclusao", nullable = false, columnDefinition = "DATETIME(6)")
     private Instant dataExclusao;
 
-    private Usuario(UsuarioID id, String nome, String senha, String email) {
+
+    public Usuario() {}
+    private Usuario(String id, String nome, String senha, String email) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -41,7 +42,7 @@ public class Usuario {
         UsuarioID usuarioID = UsuarioID.unique();
 
         return new Usuario(
-                usuarioID,
+                usuarioID.getValue(),
                 nome,
                 senha,
                 email
@@ -68,7 +69,7 @@ public class Usuario {
         return senha;
     }
 
-    public UsuarioID getId() {
+    public String getId() {
         return id;
     }
 

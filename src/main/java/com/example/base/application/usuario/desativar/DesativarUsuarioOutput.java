@@ -21,7 +21,7 @@ public class DesativarUsuarioOutput {
 
     public static DesativarUsuarioOutput from(Usuario usuario){
         return new DesativarUsuarioOutput(
-          usuario.getId().getValue(),
+          usuario.getId(),
           usuario.getEmail(),
           usuario.getDataCriacao(),
           usuario.getDataExclusao()
