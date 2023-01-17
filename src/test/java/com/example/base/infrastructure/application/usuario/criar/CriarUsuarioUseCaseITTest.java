@@ -2,19 +2,13 @@ package com.example.base.infrastructure.application.usuario.criar;
 
 
 import com.example.base.application.usuario.criar.CriarUsuarioUseCase;
-import com.example.base.domain.usuario.Usuario;
 import com.example.base.infrastructure.IntegrationTest;
 import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Optional;
-
 import static com.example.base.application.usuario.criar.CriarUsuarioCommand.with;
-import static com.example.base.domain.usuario.Usuario.newUsuario;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @IntegrationTest
 public class CriarUsuarioUseCaseITTest {
@@ -49,6 +43,7 @@ public class CriarUsuarioUseCaseITTest {
         assertNotNull(usuario.getDataCriacao());
         assertNull(usuario.getDataExclusao());
     }
+
 
 
 }
