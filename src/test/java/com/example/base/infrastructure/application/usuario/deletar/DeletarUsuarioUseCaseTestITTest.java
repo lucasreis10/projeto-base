@@ -6,17 +6,12 @@ import com.example.base.application.usuario.deletar.DeletarUsuarioUseCase;
 import com.example.base.domain.usuario.Usuario;
 import com.example.base.infrastructure.IntegrationTest;
 import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
 import static com.example.base.domain.usuario.Usuario.newUsuario;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 @IntegrationTest
 public class DeletarUsuarioUseCaseTestITTest {

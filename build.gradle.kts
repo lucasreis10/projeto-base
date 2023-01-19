@@ -29,18 +29,19 @@ repositories {
 dependencies {
 	implementation("mysql:mysql-connector-java:8.0.15")
 
+	implementation("org.springframework.security:spring-security-web:6.0.0")
+	implementation("org.springframework.security:spring-security-core:6.0.0")
+	implementation("org.springframework.boot:spring-boot-starter-security:3.0.1")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 
 	implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 	implementation("org.hibernate.validator:hibernate-validator:8.0.0.Final")
 
 	implementation("org.springdoc:springdoc-openapi-webmvc-core:1.6.11")
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
-
-	compileOnly("org.projectlombok:lombok")
-
-	annotationProcessor("org.projectlombok:lombok")
+	implementation("org.springframework.boot:spring-boot-starter-actuator:3.0.1")
 
 	testImplementation("org.flywaydb:flyway-core")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

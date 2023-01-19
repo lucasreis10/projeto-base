@@ -1,7 +1,5 @@
 package com.example.base.application.usuario.login;
 
-import lombok.Getter;
-
 public class LoginUsuarioCommand {
 
     private String email;
