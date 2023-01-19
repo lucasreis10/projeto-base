@@ -6,17 +6,10 @@ import com.example.base.application.usuario.exception.NotFoundException;
 import com.example.base.domain.usuario.Usuario;
 import com.example.base.infrastructure.IntegrationTest;
 import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 @IntegrationTest
 public class DesativarUsuarioUseCaseITTest {

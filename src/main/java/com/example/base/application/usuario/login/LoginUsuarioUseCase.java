@@ -20,7 +20,7 @@ public class LoginUsuarioUseCase extends UnitUseCase<LoginUsuarioCommand> {
     @Override
     public void execute(LoginUsuarioCommand input) {
         usuarioRepository
-                .findByEmailAndSenha(input.getEmail(), input.getSenha())
+                .findByEmail(input.getEmail())
                 .orElseThrow(UsuarioOuSenhaIncorretosException::new);
     }
 

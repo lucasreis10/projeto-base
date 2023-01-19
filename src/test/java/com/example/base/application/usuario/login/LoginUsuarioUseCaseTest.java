@@ -34,14 +34,14 @@ public class LoginUsuarioUseCaseTest {
         final var senha = "dummy";
         final var command= with(email, senha);
 
-        when(usuarioRepository.findByEmailAndSenha(any(), any()))
+        when(usuarioRepository.findByEmail(any()))
                 .thenReturn(Optional.of(Usuario.newUsuario("dummy", senha, email)));
 
         //execute
         Assertions.assertDoesNotThrow(() -> loginUsuarioUseCase.execute(command));
 
         //verify
-        verify(usuarioRepository, times(1)).findByEmailAndSenha(any(), any());
+        verify(usuarioRepository, times(1)).findByEmail(any());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class LoginUsuarioUseCaseTest {
         final var mensagemErroEsperada = "Usuário ou senha estão incorretos.";
         final var command= with("dummy@email.com", "dummy");
 
-        when(usuarioRepository.findByEmailAndSenha(any(), any()))
+        when(usuarioRepository.findByEmail(any()))
                 .thenReturn(Optional.empty());
 
         //execute
@@ -58,7 +58,7 @@ public class LoginUsuarioUseCaseTest {
                 assertThrows(UsuarioOuSenhaIncorretosException.class, () -> loginUsuarioUseCase.execute(command));
 
         //verify
-        verify(usuarioRepository, times(1)).findByEmailAndSenha(any(), any());
+        verify(usuarioRepository, times(1)).findByEmail(any());
         assertEquals(exception.getMessage(), mensagemErroEsperada);
     }
 
