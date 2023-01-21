@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RequestMapping("/auth")
-public interface AuteticacaoAPI {
+public interface AutenticacaoAPI {
 
 
     @PostMapping(
