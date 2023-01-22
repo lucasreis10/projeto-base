@@ -39,6 +39,15 @@ public class Usuario implements UserDetails {
         validar();
     }
 
+    public Usuario(String id, String nome, String email, String senha, Instant dataCriacao, Instant dataExclusao) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.dataCriacao = dataCriacao;
+        this.dataExclusao = dataExclusao;
+    }
+
     private void validar() {
         new UsuarioValidate(this).validate();
     }
@@ -51,6 +60,23 @@ public class Usuario implements UserDetails {
                 nome,
                 senha,
                 email
+        );
+    }
+
+    public static Usuario with(
+            String id,
+            String nome,
+            String senha,
+            Instant dataCriacao,
+            Instant dataExclusao
+    ) {
+        return new Usuario(
+                id,
+                nome,
+                null,
+                senha,
+                dataCriacao,
+                dataExclusao
         );
     }
 
