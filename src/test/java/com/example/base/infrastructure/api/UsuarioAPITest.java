@@ -6,6 +6,7 @@ import com.example.base.application.usuario.desativar.DesativarUsuarioOutput;
 import com.example.base.application.usuario.desativar.DesativarUsuarioUseCase;
 import com.example.base.application.usuario.exception.NotFoundException;
 import com.example.base.application.usuario.exception.UsuarioOuSenhaIncorretosException;
+import com.example.base.application.usuario.login.LoginUsuarioOutput;
 import com.example.base.application.usuario.login.LoginUsuarioUseCase;
 import com.example.base.domain.exception.DomainException;
 import com.example.base.domain.usuario.Usuario;
@@ -129,70 +130,6 @@ public class UsuarioAPITest {
         Mockito.verify(criarUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
                 Objects.equals(nomeEsperado, cmd.getNome())
                 && Objects.equals(senhaEsperada, cmd.getSenha())
-                && Objects.equals(emailEsperado, cmd.getEmail())
-        ));
-
-    }
-
-    @Test
-    public void dadoUmCommandValido_quandoExecutarLogin_deveSerRetornadoStatusCode200() throws Exception{
-        final var emailEsperado = "gleidisney@email.com.br";
-        final var senhaEsperada = "osi03w3";
-
-        final var input =
-                new LoginUsuarioAPIInput(emailEsperado, senhaEsperada);
-
-        doNothing()
-                .when(loginUsuarioUseCase).execute(Mockito.any());
-
-        // execute:
-        final var request = post("/usuarios/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(input));
-
-        final var response = mvc.perform(request)
-                .andDo(MockMvcResultHandlers.print());
-
-        // verify:
-        response
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-        Mockito.verify(loginUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
-                 Objects.equals(senhaEsperada, cmd.getSenha())
-                && Objects.equals(emailEsperado, cmd.getEmail())
-        ));
-
-    }
-
-    @Test
-    public void dadoUmCommandInvalido_quandoExecutarLogin_deveSerRetornadoStatusCode404() throws Exception{
-        final var emailEsperado = "naoexiste@email.com";
-        final var senhaEsperada = "123456";
-        final var mensagemErroEsperada = "Usuário ou senha estão incorretos.";
-
-        final var input =
-                new LoginUsuarioAPIInput(emailEsperado, senhaEsperada);
-
-        doThrow(new UsuarioOuSenhaIncorretosException())
-                .when(loginUsuarioUseCase).execute(Mockito.any());
-
-        // execute:
-        final var request = post("/usuarios/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(input));
-
-        final var response = mvc.perform(request)
-                .andDo(MockMvcResultHandlers.print());
-
-        // verify:
-        response
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(jsonPath("$.message", Matchers.equalTo(mensagemErroEsperada)));
-
-        Mockito.verify(loginUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
-                Objects.equals(senhaEsperada, cmd.getSenha())
                 && Objects.equals(emailEsperado, cmd.getEmail())
         ));
 

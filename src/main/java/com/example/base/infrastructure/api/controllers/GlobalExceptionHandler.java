@@ -17,6 +17,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiError.from(exception));
     }
 
+    @ExceptionHandler(value = UsuarioOuSenhaIncorretosException.class)
+    public ResponseEntity<?> handleDomainException(final UsuarioOuSenhaIncorretosException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiError.from(exception));
+    }
+
     @ExceptionHandler(value = DomainException.class)
     public ResponseEntity<?> handleDomainException(final DomainException exception) {
         return ResponseEntity.unprocessableEntity().body(ApiError.from(exception));
