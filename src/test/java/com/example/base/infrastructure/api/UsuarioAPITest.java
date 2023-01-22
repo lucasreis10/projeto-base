@@ -6,6 +6,7 @@ import com.example.base.application.usuario.desativar.DesativarUsuarioOutput;
 import com.example.base.application.usuario.desativar.DesativarUsuarioUseCase;
 import com.example.base.application.usuario.exception.NotFoundException;
 import com.example.base.application.usuario.login.LoginUsuarioUseCase;
+import com.example.base.application.usuario.recuperar.listar.ListarUsuarioUseCase;
 import com.example.base.domain.exception.DomainException;
 import com.example.base.domain.usuario.Usuario;
 import com.example.base.infrastructure.ControllerTest;
@@ -29,10 +30,8 @@ import java.util.Objects;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ControllerTest(controllers = UsuarioAPI.class)
 public class UsuarioAPITest {
@@ -53,6 +52,8 @@ public class UsuarioAPITest {
     private LoginUsuarioUseCase loginUsuarioUseCase;
     @MockBean
     private DesativarUsuarioUseCase desativarUsuarioUseCase;
+    @MockBean
+    private ListarUsuarioUseCase listarUsuarioUseCase;
 
 
     @Test
@@ -197,8 +198,6 @@ public class UsuarioAPITest {
     public void dadoUmCommandSemCredencial_quandoExecutarDesativarUsuario_deveSerRetornadoStatusCode403() throws Exception{
         //setup
         final var id = "dummy-id-nao-existe";
-        final var mensagemErroEsperada = "Access Denied";
-
 
         // execute:
         final var request = delete("/usuarios/"+id+"/desativar")
@@ -213,5 +212,36 @@ public class UsuarioAPITest {
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
 
     }
+
+    @Test
+    @WithMockUser(username="usuario-com-credenciais-validas")
+    public void dadoUmCommandValido_quandoExecutarListarUsuario_deveSerRetornadoStatusCode200() throws Exception{
+        // setup:
+        final var outputPagination = UsuarioAPITestHelper.paginationListaUsuarioOutput();
+        final var bodyEsperado = mapper.writeValueAsString(outputPagination);
+
+        when(listarUsuarioUseCase.execute(any()))
+                .thenReturn(outputPagination);
+
+
+        // execute:
+        final var request = get("/usuarios")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        final var response = mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print());
+
+        // verify:
+        response
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(content().string(bodyEsperado));
+
+        Mockito.verify(listarUsuarioUseCase, times(1)).execute(any());
+
+
+    }
+
 
 }

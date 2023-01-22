@@ -2,6 +2,7 @@ package com.example.base.infrastructure.api;
 
 
 import com.example.base.application.usuario.login.LoginUsuarioCommand;
+import com.example.base.domain.pagination.Pagination;
 import com.example.base.infrastructure.usuario.models.CriarUsuarioAPIInput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,7 +28,7 @@ public interface UsuarioAPI {
             @ApiResponse(responseCode =  "422", description = "Um erro de validação foi lançado."),
             @ApiResponse(responseCode =  "500", description = "Um erro interno foi lançado.")
     })
-    public ResponseEntity<?> criarUsuario(@RequestBody final CriarUsuarioAPIInput input);
+    ResponseEntity<?> criarUsuario(@RequestBody final CriarUsuarioAPIInput input);
 
 
     @DeleteMapping(
@@ -41,6 +42,21 @@ public interface UsuarioAPI {
             @ApiResponse(responseCode =  "404", description = "Usuário não existe."),
             @ApiResponse(responseCode =  "500", description = "Um erro interno foi lançado.")
     })
-    public ResponseEntity<?> desativar(@PathVariable("id") final String input);
+    ResponseEntity<?> desativar(@PathVariable("id") final String input);
+
+    @GetMapping
+    @Operation(summary = "Listar todos usuários paginados.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode =  "200", description = "Listado com sucesso."),
+            @ApiResponse(responseCode =  "422", description = "Um parametro inválido foi recebido."),
+            @ApiResponse(responseCode =  "500", description = "Um erro interno foi lançado.")
+    })
+    Pagination<?> listarCategorias(
+            @RequestParam(name = "search", required = false, defaultValue = "") final String search,
+            @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
+            @RequestParam(name = "perPage", required = false, defaultValue = "10") final int perPage,
+            @RequestParam(name = "sort", required = false, defaultValue = "nome") final String sort,
+            @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
+    );
 
 }

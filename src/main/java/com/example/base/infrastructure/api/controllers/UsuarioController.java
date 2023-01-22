@@ -5,8 +5,10 @@ import com.example.base.application.usuario.criar.CriarUsuarioUseCase;
 import com.example.base.application.usuario.desativar.DesativarUsuarioCommand;
 import com.example.base.application.usuario.desativar.DesativarUsuarioOutput;
 import com.example.base.application.usuario.desativar.DesativarUsuarioUseCase;
-import com.example.base.application.usuario.login.LoginUsuarioCommand;
-import com.example.base.application.usuario.login.LoginUsuarioUseCase;
+import com.example.base.application.usuario.recuperar.listar.ListaUsuarioOutput;
+import com.example.base.application.usuario.recuperar.listar.ListarUsuarioUseCase;
+import com.example.base.domain.pagination.Pagination;
+import com.example.base.domain.pagination.SearchQuery;
 import com.example.base.infrastructure.api.UsuarioAPI;
 import com.example.base.infrastructure.usuario.models.CriarUsuarioAPIInput;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +24,17 @@ public class UsuarioController implements UsuarioAPI {
 
     private final CriarUsuarioUseCase criarUsuarioUseCase;
     private final DesativarUsuarioUseCase desativarUsuarioUseCase;
+    private final ListarUsuarioUseCase listarUsuarioUseCase;
 
     @Autowired
     public UsuarioController(
             CriarUsuarioUseCase criarUsuarioUseCase,
-            DesativarUsuarioUseCase desativarUsuarioUseCase
+            DesativarUsuarioUseCase desativarUsuarioUseCase,
+            ListarUsuarioUseCase listarUsuarioUseCase
     ) {
         this.criarUsuarioUseCase = criarUsuarioUseCase;
         this.desativarUsuarioUseCase = desativarUsuarioUseCase;
+        this.listarUsuarioUseCase = listarUsuarioUseCase;
     }
 
     @Override
@@ -52,6 +57,19 @@ public class UsuarioController implements UsuarioAPI {
         DesativarUsuarioOutput output = desativarUsuarioUseCase.execute(command);
 
         return ResponseEntity.ok(output);
+    }
+
+    @Override
+    public Pagination<?> listarCategorias(
+            String search,
+            int page,
+            int perPage,
+            String sort,
+            String direction
+    ) {
+        final var query = new SearchQuery(page, perPage, search, sort, direction);
+
+        return listarUsuarioUseCase.execute(query);
     }
 
 }
