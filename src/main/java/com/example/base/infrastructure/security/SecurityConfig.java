@@ -11,7 +11,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,8 +37,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/auth").permitAll()
-                .anyRequest()
-                .authenticated()
+                .and()
+                .authorizeHttpRequests().requestMatchers("/**").authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
