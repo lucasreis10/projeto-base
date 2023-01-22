@@ -62,5 +62,33 @@ public class ListarUsuarioUseCaseTest {
         assertEquals(usuarios.size(), resultadoEsperado.getTotal());
     }
 
+    @Test
+    public void dadoUmaQueryValida_quandoNaoHaResultado_entaoUmaListaVaziaDeUsuariosEhRetornada() {
+        // setup:
+        final var usuarios = List.<Usuario>of();
+        final var page = 0;
+        final var perPage = 10;
+        final var terms = "";
+        final var sort = "dataCriacao";
+        final var direction = "asc";
+        final var query = new SearchQuery(page, perPage, terms, sort, direction);
+        final var pagination = new Pagination<>(page, perPage, 0, usuarios);
+        final var qtdItens = 0;
+        final var resultadoEsperado = pagination.map(ListaUsuarioOutput::from);
+
+        when(usuarioMySQLGateway.obterTodos(eq(query)))
+                .thenReturn(pagination);
+
+        // execute:
+        final var resultado = listarUsuarioUseCase.execute(query);
+
+        // verify:
+        assertEquals(qtdItens, resultadoEsperado.getItems().size());
+        assertEquals(resultadoEsperado, resultado);
+        assertEquals(page, resultadoEsperado.getCurrentPage());
+        assertEquals(perPage, resultadoEsperado.getPerPage());
+        assertEquals(0, resultadoEsperado.getTotal());
+    }
+
 
 }
