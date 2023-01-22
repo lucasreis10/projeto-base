@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.example.base.application.usuario.login.LoginUsuarioCommand.*;
+import static com.example.base.application.usuario.login.LoginUsuarioCommand.with;
 
 @RestController
 public class AutenticacaoController implements AutenticacaoAPI {
@@ -23,9 +23,9 @@ public class AutenticacaoController implements AutenticacaoAPI {
     public ResponseEntity<?> autenteicar(LoginUsuarioAPIInput input) {
         final var command = with(input.getEmail(), input.getSenha());
 
-        loginUsuarioUseCase.execute(command);
+        final var tokenJwt = loginUsuarioUseCase.execute(command);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(tokenJwt);
 
     }
 }
