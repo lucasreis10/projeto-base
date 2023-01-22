@@ -1,13 +1,12 @@
-package com.example.base.application.usuario.recuperar.obter;
+package com.example.base.infrastructure.application.usuario.recuperar.obter;
 
 import com.example.base.application.usuario.exception.NotFoundException;
+import com.example.base.application.usuario.recuperar.obter.ObterUsuarioPorIDUseCase;
 import com.example.base.domain.usuario.Usuario;
+import com.example.base.infrastructure.IntegrationTest;
 import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
@@ -15,14 +14,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class ObterUsuarioPorIDUseCaseTest {
 
+@IntegrationTest
+public class ObterUsuarioPorIDUseCaseITTest {
 
-    @InjectMocks
+    @Autowired
     private ObterUsuarioPorIDUseCase obterUsuarioPorIDUseCase;
-    @Mock
+    @Autowired
     private UsuarioRepository usuarioRepository;
+
 
     @Test
     public void dadoUmCommand_quandoExecutarObterUsuarioPorID_entaoUmUsuarioEhRetornado() {
@@ -31,14 +31,15 @@ public class ObterUsuarioPorIDUseCaseTest {
         final var emailEsperado = "dummy@email.com";
         final var usuario = Usuario.newUsuario(nomeEsperado, "dummy-senha", emailEsperado);
 
-        when(usuarioRepository.findById(any()))
-                .thenReturn(Optional.of(usuario));
+        assertEquals(0, usuarioRepository.count());
+
+        final var idUsuario = usuarioRepository.save(usuario).getId();
 
         // execute:
-        final var output = obterUsuarioPorIDUseCase.execute("dummy-id");
+        final var output = obterUsuarioPorIDUseCase.execute(idUsuario);
 
         // verify:
-        assertEquals(nomeEsperado, output.getNome());
+        assertEquals(1, usuarioRepository.count());
         assertEquals(nomeEsperado, output.getNome());
         assertEquals(emailEsperado, output.getEmail());
         assertNotNull(output.getDataCriacao());
@@ -50,16 +51,20 @@ public class ObterUsuarioPorIDUseCaseTest {
         // setup:
         final var idInexistente = "id-inexistente";
         final var erroEsperado = "Usuario com ID id-inexistente não foi encontrado.";
+        final var usuario = Usuario.newUsuario("dummy-nome", "dummy-senha", "dummy@email.com");
 
-        when(usuarioRepository.findById(any()))
-                .thenReturn(Optional.empty());
+        assertEquals(0, usuarioRepository.count());
+
+        usuarioRepository.save(usuario);
 
         // execute:
         final var exception = assertThrows(NotFoundException.class, () -> obterUsuarioPorIDUseCase.execute(idInexistente));
 
         // verify:
-        verify(usuarioRepository, times(1)).findById(any());
+        assertEquals(1, usuarioRepository.count());
         assertEquals(erroEsperado, exception.getMessage());
     }
+
+
 
 }
