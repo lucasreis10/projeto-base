@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 public class ListarUsuarioUseCase extends
         UseCase<SearchQuery, Pagination<ListaUsuarioOutput>> {
 
-
     private final UsuarioMySQLGateway usuarioMySQLGateway;
 
 
