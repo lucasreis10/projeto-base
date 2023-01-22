@@ -29,19 +29,6 @@ public interface UsuarioAPI {
     })
     public ResponseEntity<?> criarUsuario(@RequestBody final CriarUsuarioAPIInput input);
 
-    @PostMapping(
-            value = "/login",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @Operation(summary = "Realizar login por e-mail e senha.")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ApiResponses(value = {
-            @ApiResponse(responseCode =  "200", description = "Login realizado com sucesso."),
-            @ApiResponse(responseCode =  "404", description = "Usuário ou senha estão incorretos."),
-            @ApiResponse(responseCode =  "500", description = "Um erro interno foi lançado.")
-    })
-    public ResponseEntity<?> login(@RequestBody final LoginUsuarioCommand input);
 
     @DeleteMapping(
             value = "{id}/desativar",
@@ -54,6 +41,6 @@ public interface UsuarioAPI {
             @ApiResponse(responseCode =  "404", description = "Usuário não existe."),
             @ApiResponse(responseCode =  "500", description = "Um erro interno foi lançado.")
     })
-    public ResponseEntity<?> login(@PathVariable("id") final String input);
+    public ResponseEntity<?> desativar(@PathVariable("id") final String input);
 
 }

@@ -48,15 +48,7 @@ public class UsuarioController implements UsuarioAPI {
     }
 
     @Override
-    public ResponseEntity<?> login(final LoginUsuarioCommand input) {
-
-        loginUsuarioUseCase.execute(input);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @Override
-    public ResponseEntity<?> login(String input) {
+    public ResponseEntity<?> desativar(String input) {
         DesativarUsuarioCommand command = DesativarUsuarioCommand.with(input);
 
         DesativarUsuarioOutput output = desativarUsuarioUseCase.execute(command);
