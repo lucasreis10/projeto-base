@@ -193,4 +193,25 @@ public class UsuarioAPITest {
 
     }
 
+    @Test
+    public void dadoUmCommandSemCredencial_quandoExecutarDesativarUsuario_deveSerRetornadoStatusCode403() throws Exception{
+        //setup
+        final var id = "dummy-id-nao-existe";
+        final var mensagemErroEsperada = "Access Denied";
+
+
+        // execute:
+        final var request = delete("/usuarios/"+id+"/desativar")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        final var response = mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print());
+
+        // verify:
+        response
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+
+    }
+
 }
