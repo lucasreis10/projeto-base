@@ -5,8 +5,9 @@ import com.example.base.application.usuario.criar.CriarUsuarioUseCase;
 import com.example.base.application.usuario.desativar.DesativarUsuarioCommand;
 import com.example.base.application.usuario.desativar.DesativarUsuarioOutput;
 import com.example.base.application.usuario.desativar.DesativarUsuarioUseCase;
-import com.example.base.application.usuario.recuperar.listar.ListaUsuarioOutput;
 import com.example.base.application.usuario.recuperar.listar.ListarUsuarioUseCase;
+import com.example.base.application.usuario.recuperar.obter.ObterUsuarioPorIDOutput;
+import com.example.base.application.usuario.recuperar.obter.ObterUsuarioPorIDUseCase;
 import com.example.base.domain.pagination.Pagination;
 import com.example.base.domain.pagination.SearchQuery;
 import com.example.base.infrastructure.api.UsuarioAPI;
@@ -25,16 +26,18 @@ public class UsuarioController implements UsuarioAPI {
     private final CriarUsuarioUseCase criarUsuarioUseCase;
     private final DesativarUsuarioUseCase desativarUsuarioUseCase;
     private final ListarUsuarioUseCase listarUsuarioUseCase;
+    private final ObterUsuarioPorIDUseCase obterUsuarioPorIDUseCase;
 
     @Autowired
     public UsuarioController(
             CriarUsuarioUseCase criarUsuarioUseCase,
             DesativarUsuarioUseCase desativarUsuarioUseCase,
-            ListarUsuarioUseCase listarUsuarioUseCase
-    ) {
+            ListarUsuarioUseCase listarUsuarioUseCase,
+            ObterUsuarioPorIDUseCase obterUsuarioPorIDUseCase) {
         this.criarUsuarioUseCase = criarUsuarioUseCase;
         this.desativarUsuarioUseCase = desativarUsuarioUseCase;
         this.listarUsuarioUseCase = listarUsuarioUseCase;
+        this.obterUsuarioPorIDUseCase = obterUsuarioPorIDUseCase;
     }
 
     @Override
@@ -60,7 +63,7 @@ public class UsuarioController implements UsuarioAPI {
     }
 
     @Override
-    public Pagination<?> listarCategorias(
+    public Pagination<?> listarUsuarios(
             String search,
             int page,
             int perPage,
@@ -70,6 +73,13 @@ public class UsuarioController implements UsuarioAPI {
         final var query = new SearchQuery(page, perPage, search, sort, direction);
 
         return listarUsuarioUseCase.execute(query);
+    }
+
+    @Override
+    public ResponseEntity<?> obterUsuario(String input) {
+        final var output = obterUsuarioPorIDUseCase.execute(input);
+
+        return ResponseEntity.ok(output);
     }
 
 }

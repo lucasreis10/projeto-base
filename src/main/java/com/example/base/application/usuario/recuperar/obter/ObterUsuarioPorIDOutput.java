@@ -11,7 +11,7 @@ public class ObterUsuarioPorIDOutput {
     private final Instant dataCriacao;
     private final Instant dataExclusao;
 
-    private ObterUsuarioPorIDOutput(String nome, String email, Instant dataCriacao, Instant dataExclusao) {
+    public ObterUsuarioPorIDOutput(String nome, String email, Instant dataCriacao, Instant dataExclusao) {
         this.nome = nome;
         this.email = email;
         this.dataCriacao = dataCriacao;

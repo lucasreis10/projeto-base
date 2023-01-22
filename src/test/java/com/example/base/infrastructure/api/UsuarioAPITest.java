@@ -7,6 +7,8 @@ import com.example.base.application.usuario.desativar.DesativarUsuarioUseCase;
 import com.example.base.application.usuario.exception.NotFoundException;
 import com.example.base.application.usuario.login.LoginUsuarioUseCase;
 import com.example.base.application.usuario.recuperar.listar.ListarUsuarioUseCase;
+import com.example.base.application.usuario.recuperar.obter.ObterUsuarioPorIDOutput;
+import com.example.base.application.usuario.recuperar.obter.ObterUsuarioPorIDUseCase;
 import com.example.base.domain.exception.DomainException;
 import com.example.base.domain.usuario.Usuario;
 import com.example.base.infrastructure.ControllerTest;
@@ -26,6 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.Instant;
 import java.util.Objects;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -54,6 +57,8 @@ public class UsuarioAPITest {
     private DesativarUsuarioUseCase desativarUsuarioUseCase;
     @MockBean
     private ListarUsuarioUseCase listarUsuarioUseCase;
+    @MockBean
+    private ObterUsuarioPorIDUseCase obterUsuarioPorIDUseCase;
 
 
     @Test
@@ -239,8 +244,62 @@ public class UsuarioAPITest {
                 .andExpect(content().string(bodyEsperado));
 
         Mockito.verify(listarUsuarioUseCase, times(1)).execute(any());
+    }
 
+    @Test
+    @WithMockUser(username="usuario-com-credenciais-validas")
+    public void dadoUmCommandValido_quandoExecutarObterUsuarioPorId_deveSerRetornadoStatusCode200() throws Exception{
+        // setup:
+        final var id = "dummy-id";
+        final var outputEsperado = new ObterUsuarioPorIDOutput(
+                "dummy-nome", "email@email.com", Instant.now(), null);
+        final var bodyEsperado = mapper.writeValueAsString(outputEsperado);
 
+        when(obterUsuarioPorIDUseCase.execute(any()))
+                .thenReturn(outputEsperado);
+
+        // execute:
+        final var request = get("/usuarios/" + id)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        final var response = mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print());
+
+        // verify:
+        response
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(content().string(bodyEsperado));
+
+        Mockito.verify(obterUsuarioPorIDUseCase, times(1)).execute(any());
+    }
+
+    @Test
+    @WithMockUser(username="usuario-com-credenciais-validas")
+    public void dadoUmCommandValido_quandoExecutarObterUsuarioPorIdENaoTiverCorrespondeciaDeID_deveSerRetornadoStatusCode404() throws Exception{
+        // setup:
+        final var id = "dummy-id-nao-existe";
+        final var mensagemErroEsperada = "Usuario com ID dummy-id-nao-existe não foi encontrado.";
+
+        doThrow(NotFoundException.with(Usuario.class, id))
+                .when(obterUsuarioPorIDUseCase).execute(any());
+
+        // execute:
+        final var request = get("/usuarios/" + id)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        final var response = mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print());
+
+        // verify:
+        response
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(jsonPath("$.message", Matchers.equalTo(mensagemErroEsperada)));;
+
+        Mockito.verify(obterUsuarioPorIDUseCase, times(1)).execute(any());
     }
 
 
