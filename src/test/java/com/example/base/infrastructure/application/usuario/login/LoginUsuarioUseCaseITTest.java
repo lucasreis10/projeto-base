@@ -9,10 +9,12 @@ import com.example.base.infrastructure.IntegrationTest;
 import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import static com.example.base.application.usuario.login.LoginUsuarioCommand.with;
+import static com.example.base.domain.usuario.Usuario.newUsuario;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,7 +35,7 @@ public class LoginUsuarioUseCaseITTest {
         final var email = "dummy@email.com";
         final var senha = "dummy-senha";
         final var command= with(email, senha);
-        final var usuario = Usuario.newUsuario(nome, passwordEncoder.encode(senha), email);
+        final var usuario = newUsuario(nome, passwordEncoder.encode(senha), email);
 
         //execute
         assertEquals(0, usuarioRepository.count());
@@ -53,18 +55,19 @@ public class LoginUsuarioUseCaseITTest {
     @Test
     public void dadoUmCommandValido_quandoExecutarLogin_deveRetornaErroUsuarioOuSenhaIncorretos() {
         //setup
-        final var mensagemEsperada = "Usuário ou senha estão incorretos.";
+        final var mensagemEsperada = "Bad credentials";
         final var nome = "dummy-nome";
         final var email = "dummy@email.com";
         final var senha = "dummy-senha";
-        final var command= with("naoexiste@meail.com", "`12345");
-        final var usuario = Usuario.newUsuario(nome, senha, email);
+        final var command = with(email, "12345");
+        final var usuario = newUsuario(nome, passwordEncoder.encode(senha), email);
 
         //execute
         assertEquals(0, usuarioRepository.count());
 
         usuarioRepository.save(usuario);
-        final var exeception = assertThrows(UsuarioOuSenhaIncorretosException.class,
+
+        final var exeception = assertThrows(BadCredentialsException.class,
                 () -> loginUsuarioUseCase.execute(command));
 
         //verify

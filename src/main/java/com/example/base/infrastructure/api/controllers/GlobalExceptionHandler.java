@@ -5,14 +5,15 @@ import com.example.base.application.usuario.exception.UsuarioOuSenhaIncorretosEx
 import com.example.base.domain.exception.DomainException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value = UsuarioOuSenhaIncorretosException.class)
-    public ResponseEntity<?> handleDomainException(final UsuarioOuSenhaIncorretosException exception) {
+    @ExceptionHandler(value = BadCredentialsException.class)
+    public ResponseEntity<?> handleDomainException(final BadCredentialsException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiError.from(exception));
     }
 
