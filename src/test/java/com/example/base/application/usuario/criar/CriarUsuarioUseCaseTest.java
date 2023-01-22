@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static com.example.base.application.usuario.criar.CriarUsuarioCommand.with;
 import static com.example.base.domain.usuario.Usuario.newUsuario;
@@ -21,6 +22,8 @@ public class CriarUsuarioUseCaseTest {
     private CriarUsuarioUseCase criarUsuarioUseCase;
     @Mock
     private UsuarioRepository usuarioRepository;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
 
     @Test
