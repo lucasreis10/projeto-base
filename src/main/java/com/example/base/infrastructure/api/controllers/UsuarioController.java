@@ -21,16 +21,14 @@ import static com.example.base.application.usuario.criar.CriarUsuarioCommand.wit
 public class UsuarioController implements UsuarioAPI {
 
     private final CriarUsuarioUseCase criarUsuarioUseCase;
-    private final LoginUsuarioUseCase loginUsuarioUseCase;
     private final DesativarUsuarioUseCase desativarUsuarioUseCase;
 
     @Autowired
     public UsuarioController(
             CriarUsuarioUseCase criarUsuarioUseCase,
-            LoginUsuarioUseCase loginUsuarioUseCase,
-            DesativarUsuarioUseCase desativarUsuarioUseCase) {
+            DesativarUsuarioUseCase desativarUsuarioUseCase
+    ) {
         this.criarUsuarioUseCase = criarUsuarioUseCase;
-        this.loginUsuarioUseCase = loginUsuarioUseCase;
         this.desativarUsuarioUseCase = desativarUsuarioUseCase;
     }
 
