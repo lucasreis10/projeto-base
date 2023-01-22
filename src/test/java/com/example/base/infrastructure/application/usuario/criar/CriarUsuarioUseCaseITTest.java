@@ -6,6 +6,7 @@ import com.example.base.infrastructure.IntegrationTest;
 import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static com.example.base.application.usuario.criar.CriarUsuarioCommand.with;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +18,8 @@ public class CriarUsuarioUseCaseITTest {
     private CriarUsuarioUseCase criarUsuarioUseCase;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     public void dadoUmComandoValido_quandoExecutarCriarUsuario_deveRetornarUmUsuarioComId() {
@@ -37,7 +40,7 @@ public class CriarUsuarioUseCaseITTest {
         assertNotNull(usuario.getId());
         assertEquals(usuario.getNome(), nomeEsperado);
         assertEquals(usuario.getEmail(), emailEsperado);
-        assertEquals(usuario.getSenha(), senhaEsperada);
+        assertNotEquals(usuario.getSenha(), senhaEsperada);
         assertEquals(usuario.getId(), output.getId());
         assertEquals(usuario.getEmail(), output.getEmail());
         assertNotNull(usuario.getDataCriacao());
