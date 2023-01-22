@@ -1,5 +1,6 @@
 package com.example.base.application.usuario.recuperar.obter;
 
+import com.example.base.application.usuario.exception.NotFoundException;
 import com.example.base.domain.usuario.Usuario;
 import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import org.junit.jupiter.api.Assertions;
@@ -13,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,7 +27,7 @@ public class ObterUsuarioPorIDUseCaseTest {
     private UsuarioRepository usuarioRepository;
 
     @Test
-    public void dadoUmaQueryValida_quandoExecutarObterUsuarioPorID_entaoUmUsuarioEhRetornado() {
+    public void dadoUmCommand_quandoExecutarObterUsuarioPorID_entaoUmUsuarioEhRetornado() {
         // setup:
         final var nomeEsperado = "dummy-nome";
         final var emailEsperado = "dummy@email.com";
@@ -43,6 +45,23 @@ public class ObterUsuarioPorIDUseCaseTest {
         assertEquals(emailEsperado, output.getEmail());
         assertNotNull(output.getDataCriacao());
         assertNull(output.getDataExclusao());
+    }
+
+    @Test
+    public void dadoUmCommandValido_quandoExecutarObterUsuarioPorIDComIDNaoCorrespondente_entaoUmaExceptionEhRetornada() {
+        // setup:
+        final var idInexistente = "id-inexistente";
+        final var erroEsperado = "Usuario com ID id-inexistente não foi encontrado.";
+
+        when(usuarioRepository.findById(any()))
+                .thenReturn(Optional.empty());
+
+        // execute:
+        final var exception = assertThrows(NotFoundException.class, () -> obterUsuarioPorIDUseCase.execute(idInexistente));
+
+        // verify:
+        verify(usuarioRepository, times(1)).findById(any());
+        assertEquals(erroEsperado, exception.getMessage());
     }
 
 }
