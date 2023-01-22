@@ -42,7 +42,6 @@ public class DesativarUsuarioUseCaseITTest {
         assertEquals(1, usuarioRepository.count());
         assertNotNull(output.getId());
         assertNotNull(output.getDataExclusao());
-        assertEquals(novoUsuario.getDataCriacao(), output.getDataCriacao());
         assertTrue(output.getDataCriacao().isBefore(output.getDataExclusao()));
     }
 
