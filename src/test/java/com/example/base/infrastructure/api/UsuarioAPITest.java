@@ -10,14 +10,19 @@ import com.example.base.application.usuario.login.LoginUsuarioUseCase;
 import com.example.base.domain.exception.DomainException;
 import com.example.base.domain.usuario.Usuario;
 import com.example.base.infrastructure.ControllerTest;
+import com.example.base.infrastructure.security.JwtAuthenticationFilter;
+import com.example.base.infrastructure.security.JwtService;
 import com.example.base.infrastructure.usuario.models.CriarUsuarioAPIInput;
 import com.example.base.infrastructure.usuario.models.LoginUsuarioAPIInput;
+import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -33,18 +38,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ControllerTest(controllers = UsuarioAPI.class)
+//@AutoConfigureMockMvc(addFilters = false)
 public class UsuarioAPITest {
 
     @Autowired
     private MockMvc mvc;
     @Autowired
     private ObjectMapper mapper;
+    @Autowired
+    private JwtAuthenticationFilter authFilter;
+    @Autowired
+    private JwtService jwtService;
+    @MockBean
+    private UsuarioRepository usuarioRepository;
     @MockBean
     private CriarUsuarioUseCase criarUsuarioUseCase;
     @MockBean
     private LoginUsuarioUseCase loginUsuarioUseCase;
     @MockBean
     private DesativarUsuarioUseCase desativarUsuarioUseCase;
+
 
     @Test
     public void dadoParametrosValidos_quandoExecutarCriarUsuario_entaoRetornaUsuarioComIdEEmail() throws Exception{
