@@ -5,8 +5,6 @@ import com.example.base.application.usuario.criar.CriarUsuarioUseCase;
 import com.example.base.application.usuario.desativar.DesativarUsuarioOutput;
 import com.example.base.application.usuario.desativar.DesativarUsuarioUseCase;
 import com.example.base.application.usuario.exception.NotFoundException;
-import com.example.base.application.usuario.exception.UsuarioOuSenhaIncorretosException;
-import com.example.base.application.usuario.login.LoginUsuarioOutput;
 import com.example.base.application.usuario.login.LoginUsuarioUseCase;
 import com.example.base.domain.exception.DomainException;
 import com.example.base.domain.usuario.Usuario;
@@ -14,17 +12,15 @@ import com.example.base.infrastructure.ControllerTest;
 import com.example.base.infrastructure.security.JwtAuthenticationFilter;
 import com.example.base.infrastructure.security.JwtService;
 import com.example.base.infrastructure.usuario.models.CriarUsuarioAPIInput;
-import com.example.base.infrastructure.usuario.models.LoginUsuarioAPIInput;
 import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -39,7 +35,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ControllerTest(controllers = UsuarioAPI.class)
-//@AutoConfigureMockMvc(addFilters = false)
 public class UsuarioAPITest {
 
     @Autowired
@@ -136,6 +131,7 @@ public class UsuarioAPITest {
     }
 
     @Test
+    @WithMockUser(username="usuario-com-credenciais-validas")
     public void dadoUmCommandValido_quandoExecutarDesativarUsuario_deveSerRetornadoStatusCode200() throws Exception{
         //setup
         final var id = "312";
@@ -167,6 +163,7 @@ public class UsuarioAPITest {
     }
 
     @Test
+    @WithMockUser(username="usuario-com-credenciais-validas")
     public void dadoUmCommandInvalidoComIdInexistente_quandoExecutarDesativarUsuario_deveSerRetornadoStatusCode404() throws Exception{
         //setup
         final var id = "dummy-id-nao-existe";
