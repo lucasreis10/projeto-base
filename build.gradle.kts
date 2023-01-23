@@ -9,6 +9,7 @@ apply(plugin = "org.sonarqube")
 
 plugins {
 	java
+	jacoco
 	id("org.springframework.boot") version "3.0.1"
 	id("io.spring.dependency-management") version "1.1.0"
 	id("org.graalvm.buildtools.native") version "0.9.18"
@@ -63,6 +64,17 @@ flyway {
 	url = System.getenv("FLYWAY_DB") ?: "jdbc:mysql://localhost:3306/projeto_base"
 	user = System.getenv("FLYWAY_USER") ?: "root"
 	password = System.getenv("FLYWAY_PASS") ?: "123456"
+}
+tasks.test {
+	finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+tasks.jacocoTestReport {
+	dependsOn(tasks.test) // tests are required to run before generating the report
+	reports {
+		xml.required.set(true)
+		csv.required.set(false)
+		html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+	}
 }
 
 tasks.withType<Test> {
