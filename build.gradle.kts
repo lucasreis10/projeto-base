@@ -40,6 +40,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	implementation("org.flywaydb:flyway-mysql:8.5.10")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
@@ -56,6 +57,9 @@ dependencies {
 	testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
 	testImplementation("org.springframework.security:spring-security-test:6.0.1")
 
+	testImplementation("org.testcontainers:testcontainers:1.17.6")
+	testImplementation("org.testcontainers:mysql:1.17.6")
+	testImplementation("org.testcontainers:junit-jupiter:1.17.6")
 
 	testRuntimeOnly("com.h2database:h2")
 }
