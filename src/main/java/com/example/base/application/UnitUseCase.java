@@ -1,7 +1,7 @@
 package com.example.base.application;
 
-public abstract class UnitUseCase<Input> {
+public abstract class UnitUseCase<I> {
 
-    public abstract void execute(Input input);
+    public abstract void execute(I input);
 
 }

@@ -1,7 +1,7 @@
 package com.example.base.application;
 
-public abstract class UseCase<Input, Output> {
+public abstract class UseCase<I, O> {
 
-    public abstract Output execute(Input input);
+    public abstract O execute(I input);
 
 }
