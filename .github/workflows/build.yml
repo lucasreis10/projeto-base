@@ -55,7 +55,7 @@ jobs:
           projectBaseDir: my-custom-directory
           args: >
             -Dsonar.organization=lucasreis10
-            -Dsonar.projectKey=projeto-base
+            -Dsonar.projectKey=lucasreis10_projeto-base
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
