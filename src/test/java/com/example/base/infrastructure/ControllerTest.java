@@ -1,7 +1,6 @@
 package com.example.base.infrastructure;
 
 import com.example.base.infrastructure.security.SecurityConfig;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.annotation.AliasFor;
@@ -13,7 +12,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-@ActiveProfiles("test")
+@ActiveProfiles("test-integration")
 @WebMvcTest
 @ContextConfiguration(classes = SecurityConfig.class)
 @ComponentScan(basePackages = "com.example.base.infrastructure")
