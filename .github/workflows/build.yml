@@ -47,8 +47,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+      - name: Download target from previous job
+        uses: actions/download-artifact@v1
+        with:
+          name: build
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         with:
