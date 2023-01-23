@@ -6,6 +6,8 @@ import java.util.List;
 
 public class ListaUsuarioUseCaseTestHelper {
 
+    private ListaUsuarioUseCaseTestHelper(){}
+
     public static List<Usuario> listaUsuarios() {
         return List.of(
                 Usuario.newUsuario("dummy A", "dummy senha A", "dummy-a@email.com"),
