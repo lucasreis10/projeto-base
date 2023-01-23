@@ -48,6 +48,7 @@ jobs:
             - project-folder/build/jacoco
   coverage:
     name: Coverage Testes
+    runs-on: ubuntu-latest
     needs: [build]
     steps:
       - run:
