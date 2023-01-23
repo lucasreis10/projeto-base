@@ -48,10 +48,12 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Download tests
-        uses: actions/download-artifact@v1
-        with:
-          name: build
+#      - name: Download tests
+#        uses: actions/download-artifact@v1
+#        with:
+#          name: build
+      - name: Run report jacoco
+        run: ./gradlew jacocoTestReport
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         with:
