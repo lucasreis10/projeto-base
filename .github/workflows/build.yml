@@ -40,6 +40,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run all tests
         run: ./gradlew test -i
+      - name: Upload target for next job
+        uses: actions/upload-artifact@v1
+        with:
+          name: test
+          path: build
   sonarcloud:
     name: Sonar Cloud
     runs-on: ubuntu-latest
@@ -48,10 +53,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Download target from previous job
+      - name: Download tests
         uses: actions/download-artifact@v1
         with:
-          name: build
+          name: test
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         with:
