@@ -69,7 +69,7 @@ public class UsuarioAPITest {
     @Test
     public void dadoParametrosValidos_quandoExecutarCriarUsuario_entaoRetornaUsuarioComIdEEmail() throws Exception{
         // setup:
-        final var idEsperado = "dummy-id";
+        final var idEsperado = "dummy-id-popos323";
         final var emailEsperado = "gleidisney@email.com.br";
         final var nomeEsperado = "Gleidisney";
         final var senhaEsperada = "osi03w3";
@@ -92,9 +92,9 @@ public class UsuarioAPITest {
         response
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.header().string("Location",  "/usuarios/dummy-id"))
+                .andExpect(MockMvcResultMatchers.header().string("Location",  "/usuarios/dummy-id-popos323"))
                 .andExpect(header().string(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$.id", Matchers.equalTo("dummy-id")));
+                .andExpect(jsonPath("$.id", Matchers.equalTo(idEsperado)));
 
         Mockito.verify(criarUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
                 Objects.equals(nomeEsperado, cmd.getNome())
@@ -254,7 +254,7 @@ public class UsuarioAPITest {
     @WithMockUser(username="usuario-com-credenciais-validas")
     public void dadoUmCommandValido_quandoExecutarObterUsuarioPorId_deveSerRetornadoStatusCode200() throws Exception{
         // setup:
-        final var id = "dummy-id";
+        final var id = "dummy-id-23s3w4";
         final var outputEsperado = new ObterUsuarioPorIDOutput(
                 "dummy-nome", "email@email.com", Instant.now(), null);
         final var bodyEsperado = mapper.writeValueAsString(outputEsperado);
