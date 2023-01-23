@@ -32,8 +32,8 @@ public class UsuarioTest {
         // setup:
         final var exceptionEsperada = "'nome' deve ter 3 a 255 caracteres.";
         final var nomeEsperado = "Ab";
-        final var emailEsperado = "dummy";
-        final var senhaEsperada = "dummy";
+        final var emailEsperado = "dummy.d@email";
+        final var senhaEsperada = "dummy-234w33";
 
         // execute:
         final var exception = assertThrows(DomainException.class, () -> Usuario.newUsuario(nomeEsperado, senhaEsperada, emailEsperado));
@@ -47,8 +47,8 @@ public class UsuarioTest {
         // setup:
         final var exceptionEsperada = "'nome' não pode ser nulo.";
         final String nomeEsperado = null;
-        final var emailEsperado = "dummy";
-        final var senhaEsperada = "dummy";
+        final var emailEsperado = "dummy@email";
+        final var senhaEsperada = "dummy-pass-3231";
 
         // execute:
         final var exception = assertThrows(DomainException.class, () -> Usuario.newUsuario(nomeEsperado, senhaEsperada, emailEsperado));
@@ -62,8 +62,8 @@ public class UsuarioTest {
         // setup:
         final var exceptionEsperada = "'nome' não pode ser vazio.";
         final var nomeEsperado = "";
-        final var emailEsperado = "dummy";
-        final var senhaEsperada = "dummy";
+        final var emailEsperado = "dummy.e@email.com";
+        final var senhaEsperada = "dummy-senha-2323";
 
         // execute:
         final var exception = assertThrows(DomainException.class, () -> Usuario.newUsuario(nomeEsperado, senhaEsperada, emailEsperado));

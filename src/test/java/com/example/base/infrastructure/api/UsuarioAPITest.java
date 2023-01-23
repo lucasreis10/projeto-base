@@ -60,6 +60,11 @@ public class UsuarioAPITest {
     @MockBean
     private ObterUsuarioPorIDUseCase obterUsuarioPorIDUseCase;
 
+    private static final String REQUEST_MAPPING_USUARIOS = "/usuarios";
+    private static final String MESSAGE_REPONSE_BODY = "$.message";
+    private static final String CONTENT_TYPE = "Content-Type";
+
+
 
     @Test
     public void dadoParametrosValidos_quandoExecutarCriarUsuario_entaoRetornaUsuarioComIdEEmail() throws Exception{
@@ -76,7 +81,7 @@ public class UsuarioAPITest {
                 .thenReturn(CriarUsuarioOutput.from(idEsperado, emailEsperado));
 
         // execute:
-        final var request = post("/usuarios")
+        final var request = post(REQUEST_MAPPING_USUARIOS)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(input));
 
@@ -88,7 +93,7 @@ public class UsuarioAPITest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.header().string("Location",  "/usuarios/dummy-id"))
-                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(header().string(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.id", Matchers.equalTo("dummy-id")));
 
         Mockito.verify(criarUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
@@ -105,7 +110,6 @@ public class UsuarioAPITest {
         final String nomeEsperado = null;
         final var senhaEsperada = "osi03w3";
         final var mensagemErroEsperada = "'nome' não pode ser nulo.";
-        final var message = "$.message";
 
         final var input =
                 new CriarUsuarioAPIInput(nomeEsperado, senhaEsperada, emailEsperado);
@@ -114,7 +118,7 @@ public class UsuarioAPITest {
                 .thenThrow(new DomainException(mensagemErroEsperada));
 
         // execute:
-        final var request = post("/usuarios")
+        final var request = post(REQUEST_MAPPING_USUARIOS)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(input));
 
@@ -126,8 +130,8 @@ public class UsuarioAPITest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
                 .andExpect(header().string("Location", Matchers.nullValue()))
-                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath(message, Matchers.equalTo(mensagemErroEsperada)));
+                .andExpect(header().string(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath(MESSAGE_REPONSE_BODY, Matchers.equalTo(mensagemErroEsperada)));
 
         Mockito.verify(criarUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
                 Objects.equals(nomeEsperado, cmd.getNome())
@@ -175,7 +179,7 @@ public class UsuarioAPITest {
         //setup
         final var id = "dummy-id-nao-existe";
         final var mensagemErroEsperada = "Usuario com ID dummy-id-nao-existe não foi encontrado.";
-        final var message = "$.message";
+
 
 
         doThrow(NotFoundException.with(Usuario.class, id))
@@ -192,7 +196,7 @@ public class UsuarioAPITest {
         response
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(jsonPath(message, Matchers.equalTo(mensagemErroEsperada)));
+                .andExpect(jsonPath(MESSAGE_REPONSE_BODY, Matchers.equalTo(mensagemErroEsperada)));
 
 
         Mockito.verify(desativarUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
@@ -230,7 +234,7 @@ public class UsuarioAPITest {
 
 
         // execute:
-        final var request = get("/usuarios")
+        final var request = get(REQUEST_MAPPING_USUARIOS)
                 .contentType(MediaType.APPLICATION_JSON);
 
         final var response = mvc.perform(request)
@@ -239,7 +243,7 @@ public class UsuarioAPITest {
         // verify:
         response
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(header().string(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(content().string(bodyEsperado));
 
@@ -268,7 +272,7 @@ public class UsuarioAPITest {
         // verify:
         response
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(header().string(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(content().string(bodyEsperado));
 
@@ -281,7 +285,6 @@ public class UsuarioAPITest {
         // setup:
         final var id = "dummy-id-nao-existe";
         final var mensagemErroEsperada = "Usuario com ID dummy-id-nao-existe não foi encontrado.";
-        final var message = "$.message";
 
         doThrow(NotFoundException.with(Usuario.class, id))
                 .when(obterUsuarioPorIDUseCase).execute(any());
@@ -296,9 +299,9 @@ public class UsuarioAPITest {
         // verify:
         response
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(header().string(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(jsonPath(message, Matchers.equalTo(mensagemErroEsperada)));;
+                .andExpect(jsonPath(MESSAGE_REPONSE_BODY, Matchers.equalTo(mensagemErroEsperada)));;
 
         Mockito.verify(obterUsuarioPorIDUseCase, times(1)).execute(any());
     }

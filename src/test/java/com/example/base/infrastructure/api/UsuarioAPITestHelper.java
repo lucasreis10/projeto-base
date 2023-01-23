@@ -8,6 +8,8 @@ import java.util.List;
 
 public class UsuarioAPITestHelper {
 
+    private UsuarioAPITestHelper() {}
+
     public static Pagination<ListaUsuarioOutput> paginationListaUsuarioOutput() {
         final var listaUsuarioOutputs = listaUsuarioOutputs();
 

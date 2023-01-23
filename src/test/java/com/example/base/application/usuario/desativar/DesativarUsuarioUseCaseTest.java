@@ -29,7 +29,7 @@ public class DesativarUsuarioUseCaseTest {
         //setup
         final var id = "123";
         final var command = DesativarUsuarioCommand.with(id);
-        final var usuarioEsperado = newUsuario("dummy", "dummy", "dummy");
+        final var usuarioEsperado = newUsuario("dummy-nome", "dummy-senha", "dummy@email.com");
 
         when(usuarioRepository.findById(id))
                 .thenReturn(Optional.of(usuarioEsperado));

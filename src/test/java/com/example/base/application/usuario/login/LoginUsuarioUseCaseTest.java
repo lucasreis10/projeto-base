@@ -4,7 +4,6 @@ import com.example.base.application.usuario.exception.UsuarioOuSenhaIncorretosEx
 import com.example.base.domain.usuario.Usuario;
 import com.example.base.infrastructure.security.JwtService;
 import com.example.base.infrastructure.usuario.persistence.UsuarioRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,11 +11,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 
 import java.util.Optional;
 
-import static com.example.base.application.usuario.login.LoginUsuarioCommand.*;
+import static com.example.base.application.usuario.login.LoginUsuarioCommand.with;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -39,13 +37,13 @@ public class LoginUsuarioUseCaseTest {
     public void dadoUmCommandValido_quandoExecutarLogin_deveRetornarJwtToken() {
         //setup
         final var email = "dummy@email.com";
-        final var senha = "dummy";
+        final var senha = "dummy-senha";
         final var tokenEsperado = "jwt-token";
         final var authenticationToken = new UsernamePasswordAuthenticationToken("", "");
         final var command= with(email, senha);
 
         when(usuarioRepository.findByEmail(any()))
-                .thenReturn(Optional.of(Usuario.newUsuario("dummy", senha, email)));
+                .thenReturn(Optional.of(Usuario.newUsuario("dummy-nome", senha, email)));
 
         when(authenticationManager.authenticate(any()))
                 .thenReturn(authenticationToken);
@@ -66,7 +64,7 @@ public class LoginUsuarioUseCaseTest {
     public void dadoUmCommandValido_quandoExecutarLogin_deveRetornaErroUsuarioOuSenhaIncorretos() {
         //setup
         final var mensagemErroEsperada = "Usuário ou senha estão incorretos.";
-        final var command= with("dummy@email.com", "dummy");
+        final var command= with("dummy@email.com", "dummy-password");
 
         when(usuarioRepository.findByEmail(any()))
                 .thenReturn(Optional.empty());

@@ -31,7 +31,7 @@ public class CriarUsuarioUseCaseTest {
         // setup
         final var nomeEsperado = "dummy-nome";
         final var senhaEsperada = "dummy-senha";
-        final var emailEsperado = "rr.richards@email.com";
+        final var emailEsperado = "r.richards@email.com";
         final var command = with(nomeEsperado, senhaEsperada, emailEsperado);
         final var outputEsperado = newUsuario(nomeEsperado, senhaEsperada, emailEsperado);
 
@@ -69,7 +69,7 @@ public class CriarUsuarioUseCaseTest {
         final var exceptionEsperada = "'nome' não pode ser nulo.";
         final String nomeInvalido = null;
         final var senhaEsperada = "dummy-password";
-        final var emailEsperado = "rr.richards@email.com";
+        final var emailEsperado = "richards@email.com";
         final var command = with(nomeInvalido, senhaEsperada, emailEsperado);
 
         // execute
