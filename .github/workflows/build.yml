@@ -58,7 +58,7 @@ jobs:
           args: >
             -Dsonar.organization=lucasreis10
             -Dsonar.projectKey=lucasreis10_projeto-base
-            -Dsonar.binaries=build
+            -Dsonar.java.binaries=build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
