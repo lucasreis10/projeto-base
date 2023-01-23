@@ -1,8 +1,11 @@
 buildscript {
 	dependencies {
 		classpath("org.flywaydb:flyway-mysql:8.5.10")
+		classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.5.0.2730")
 	}
 }
+
+apply(plugin = "org.sonarqube")
 
 plugins {
 	java
@@ -10,6 +13,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.0"
 	id("org.graalvm.buildtools.native") version "0.9.18"
 	id("org.flywaydb.flyway") version "8.5.10"
+	id("org.sonarqube") version "3.5.0.2730"
 }
 
 group = "com.example.base"
