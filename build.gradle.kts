@@ -65,9 +65,11 @@ flyway {
 	user = System.getenv("FLYWAY_USER") ?: "root"
 	password = System.getenv("FLYWAY_PASS") ?: "123456"
 }
+
 tasks.test {
 	finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
 }
+
 tasks.jacocoTestReport {
 	dependsOn(tasks.test) // tests are required to run before generating the report
 	reports {
