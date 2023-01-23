@@ -6,11 +6,14 @@ import java.time.Instant;
 
 public class ObterUsuarioPorIDOutput {
 
-    private final String nome;
-    private final String email;
-    private final Instant dataCriacao;
-    private final Instant dataExclusao;
+    private String nome;
+    private String email;
+    private Instant dataCriacao;
+    private Instant dataExclusao;
 
+    public ObterUsuarioPorIDOutput() {
+
+    }
     public ObterUsuarioPorIDOutput(String nome, String email, Instant dataCriacao, Instant dataExclusao) {
         this.nome = nome;
         this.email = email;
