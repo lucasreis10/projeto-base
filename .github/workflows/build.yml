@@ -53,10 +53,6 @@ jobs:
         with:
           java-version: "17"
           distribution: "adopt"
-      - name: Download folder build
-        uses: actions/download-artifact@v1
-        with:
-          name: build
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
