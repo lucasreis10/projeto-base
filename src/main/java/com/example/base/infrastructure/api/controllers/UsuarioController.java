@@ -5,6 +5,7 @@ import com.example.base.application.usuario.criar.CriarUsuarioUseCase;
 import com.example.base.application.usuario.desativar.DesativarUsuarioCommand;
 import com.example.base.application.usuario.desativar.DesativarUsuarioOutput;
 import com.example.base.application.usuario.desativar.DesativarUsuarioUseCase;
+import com.example.base.application.usuario.recuperar.listar.ListaUsuarioOutput;
 import com.example.base.application.usuario.recuperar.listar.ListarUsuarioUseCase;
 import com.example.base.application.usuario.recuperar.obter.ObterUsuarioPorIDOutput;
 import com.example.base.application.usuario.recuperar.obter.ObterUsuarioPorIDUseCase;
@@ -63,7 +64,7 @@ public class UsuarioController implements UsuarioAPI {
     }
 
     @Override
-    public Pagination<?> listarUsuarios(
+    public Pagination<ListaUsuarioOutput> listarUsuarios(
             String search,
             int page,
             int perPage,

@@ -101,10 +101,11 @@ public class UsuarioAPITest {
 
     @Test
     public void dadoUmNomeNullInvalido_quandoExecutarCriarUsuario_deveSerRetornadoNotificationErroStatus422() throws Exception{
-         final var emailEsperado = "gleidisney@email.com.br";
+        final var emailEsperado = "gleidisney@email.com.br";
         final String nomeEsperado = null;
         final var senhaEsperada = "osi03w3";
         final var mensagemErroEsperada = "'nome' não pode ser nulo.";
+        final var message = "$.message";
 
         final var input =
                 new CriarUsuarioAPIInput(nomeEsperado, senhaEsperada, emailEsperado);
@@ -126,7 +127,7 @@ public class UsuarioAPITest {
                 .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
                 .andExpect(header().string("Location", Matchers.nullValue()))
                 .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$.message", Matchers.equalTo(mensagemErroEsperada)));
+                .andExpect(jsonPath(message, Matchers.equalTo(mensagemErroEsperada)));
 
         Mockito.verify(criarUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
                 Objects.equals(nomeEsperado, cmd.getNome())
@@ -151,7 +152,7 @@ public class UsuarioAPITest {
                 .thenReturn(outputEsperado);
 
         // execute:
-        final var request = delete("/usuarios/"+id+"/desativar")
+        final var request = delete("/usuarios/312/desativar")
                 .contentType(MediaType.APPLICATION_JSON);
 
         final var response = mvc.perform(request)
@@ -174,13 +175,14 @@ public class UsuarioAPITest {
         //setup
         final var id = "dummy-id-nao-existe";
         final var mensagemErroEsperada = "Usuario com ID dummy-id-nao-existe não foi encontrado.";
+        final var message = "$.message";
 
 
         doThrow(NotFoundException.with(Usuario.class, id))
                 .when(desativarUsuarioUseCase).execute(any());
 
         // execute:
-        final var request = delete("/usuarios/"+id+"/desativar")
+        final var request = delete("/usuarios/dummy-id-nao-existe/desativar")
                 .contentType(MediaType.APPLICATION_JSON);
 
         final var response = mvc.perform(request)
@@ -190,7 +192,7 @@ public class UsuarioAPITest {
         response
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(jsonPath("$.message", Matchers.equalTo(mensagemErroEsperada)));
+                .andExpect(jsonPath(message, Matchers.equalTo(mensagemErroEsperada)));
 
 
         Mockito.verify(desativarUsuarioUseCase, times(1)).execute(Mockito.argThat(cmd ->
@@ -201,11 +203,9 @@ public class UsuarioAPITest {
 
     @Test
     public void dadoUmCommandSemCredencial_quandoExecutarDesativarUsuario_deveSerRetornadoStatusCode403() throws Exception{
-        //setup
-        final var id = "dummy-id-nao-existe";
-
+        // setup:
         // execute:
-        final var request = delete("/usuarios/"+id+"/desativar")
+        final var request = delete("/usuarios/dummy-id-nao-existe/desativar")
                 .contentType(MediaType.APPLICATION_JSON);
 
         final var response = mvc.perform(request)
@@ -281,6 +281,7 @@ public class UsuarioAPITest {
         // setup:
         final var id = "dummy-id-nao-existe";
         final var mensagemErroEsperada = "Usuario com ID dummy-id-nao-existe não foi encontrado.";
+        final var message = "$.message";
 
         doThrow(NotFoundException.with(Usuario.class, id))
                 .when(obterUsuarioPorIDUseCase).execute(any());
@@ -297,7 +298,7 @@ public class UsuarioAPITest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(jsonPath("$.message", Matchers.equalTo(mensagemErroEsperada)));;
+                .andExpect(jsonPath(message, Matchers.equalTo(mensagemErroEsperada)));;
 
         Mockito.verify(obterUsuarioPorIDUseCase, times(1)).execute(any());
     }

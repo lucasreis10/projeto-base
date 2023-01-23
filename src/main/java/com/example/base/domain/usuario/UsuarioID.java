@@ -2,7 +2,6 @@ package com.example.base.domain.usuario;
 
 import com.example.base.domain.DomainID;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 public class UsuarioID extends DomainID {

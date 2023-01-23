@@ -7,7 +7,7 @@ public abstract class DomainID implements Serializable {
 
     protected final String id;
 
-    public DomainID(String id) {
+    protected DomainID(String id) {
         this.id = id;
     }
 

@@ -29,8 +29,8 @@ public class CriarUsuarioUseCaseTest {
     @Test
     public void dadoUmComandoValido_quandoExecutarCriarUsuario_deveRetornarUmUsuarioComId() {
         // setup
-        final var nomeEsperado = "dummy";
-        final var senhaEsperada = "dummy";
+        final var nomeEsperado = "dummy-nome";
+        final var senhaEsperada = "dummy-senha";
         final var emailEsperado = "rr.richards@email.com";
         final var command = with(nomeEsperado, senhaEsperada, emailEsperado);
         final var outputEsperado = newUsuario(nomeEsperado, senhaEsperada, emailEsperado);
@@ -52,7 +52,7 @@ public class CriarUsuarioUseCaseTest {
         // setup
         final var exceptionEsperada = "'nome' deve ter 3 a 255 caracteres.";
         final var nomeInvalido = "aa";
-        final var senhaEsperada = "dummy";
+        final var senhaEsperada = "dummy-senha-esperada";
         final var emailEsperado = "rr.richards@email.com";
         final var command = with(nomeInvalido, senhaEsperada, emailEsperado);
 
@@ -68,7 +68,7 @@ public class CriarUsuarioUseCaseTest {
         // setup
         final var exceptionEsperada = "'nome' não pode ser nulo.";
         final String nomeInvalido = null;
-        final var senhaEsperada = "dummy";
+        final var senhaEsperada = "dummy-password";
         final var emailEsperado = "rr.richards@email.com";
         final var command = with(nomeInvalido, senhaEsperada, emailEsperado);
 
@@ -84,7 +84,7 @@ public class CriarUsuarioUseCaseTest {
         // setup
         final var exceptionEsperada = "'nome' não pode ser nulo.";
         final var nomeInvalido = "";
-        final var senhaEsperada = "dummy";
+        final var senhaEsperada = "dummy-senh";
         final var emailEsperado = "rr.richards@email.com";
         final var command = with(nomeInvalido, senhaEsperada, emailEsperado);
 

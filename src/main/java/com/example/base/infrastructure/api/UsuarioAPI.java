@@ -1,6 +1,7 @@
 package com.example.base.infrastructure.api;
 
 
+import com.example.base.application.usuario.recuperar.listar.ListaUsuarioOutput;
 import com.example.base.domain.pagination.Pagination;
 import com.example.base.infrastructure.usuario.models.CriarUsuarioAPIInput;
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,7 +50,7 @@ public interface UsuarioAPI {
             @ApiResponse(responseCode =  "422", description = "Um parametro inválido foi recebido."),
             @ApiResponse(responseCode =  "500", description = "Um erro interno foi lançado.")
     })
-    Pagination<?> listarUsuarios(
+    Pagination<ListaUsuarioOutput> listarUsuarios(
             @RequestParam(name = "search", required = false, defaultValue = "") final String search,
             @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
             @RequestParam(name = "perPage", required = false, defaultValue = "10") final int perPage,
