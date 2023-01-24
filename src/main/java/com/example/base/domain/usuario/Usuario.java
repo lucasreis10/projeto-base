@@ -21,15 +21,14 @@ public class Usuario implements UserDetails {
     private String email;
     @Column(nullable = false)
     private String senha;
-
     @Column(name = "data_criacao", nullable = false, columnDefinition = "DATETIME(6)")
     private Instant dataCriacao;
 
     @Column(name = "data_exclusao", nullable = false, columnDefinition = "DATETIME(6)")
     private Instant dataExclusao;
 
+    private Usuario() {}
 
-    public Usuario() {}
     private Usuario(String id, String nome, String senha, String email) {
         this.id = id;
         this.nome = nome;
@@ -39,7 +38,7 @@ public class Usuario implements UserDetails {
         validar();
     }
 
-    public Usuario(String id, String nome, String email, String senha, Instant dataCriacao, Instant dataExclusao) {
+    private Usuario(String id, String nome, String email, String senha, Instant dataCriacao, Instant dataExclusao) {
         this.id = id;
         this.nome = nome;
         this.email = email;

@@ -31,12 +31,12 @@ public class UsuarioTest {
     public void dadoUmComandoComNomeInvalido_quandoExecutarNewUsuario_deveRetornarUmaExecao() {
         // setup:
         final var exceptionEsperada = "'nome' deve ter 3 a 255 caracteres.";
-        final var nomeEsperado = "Ab";
+        final var nomeEsperadoInvalido = "Ab";
         final var emailEsperado = "dummy.d@email";
         final var senhaEsperada = "dummy-234w33";
 
         // execute:
-        final var exception = assertThrows(DomainException.class, () -> Usuario.newUsuario(nomeEsperado, senhaEsperada, emailEsperado));
+        final var exception = assertThrows(DomainException.class, () -> Usuario.newUsuario(nomeEsperadoInvalido, senhaEsperada, emailEsperado));
 
         // verify:
         assertEquals(exception.getMessage(), exceptionEsperada);
