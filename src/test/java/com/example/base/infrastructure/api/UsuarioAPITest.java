@@ -142,6 +142,7 @@ public class UsuarioAPITest {
     }
 
     @Test
+    @WithMockUser(username="usuario-com-credenciais-validas")
     public void dadoUmCommandValido_quandoExecutarDesativarUsuario_deveSerRetornadoStatusCode200() throws Exception{
         //setup
         final var id = "312";
